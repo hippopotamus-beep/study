@@ -1,0 +1,64 @@
+Setup
+git config --global user.name "Name"
+git config --global user.email "email@example.com"
+
+Starting a Repo
+git init              # Initialize new repo
+git clone <url>       # Clone a remote repo
+
+Staging & Committing
+git status            # Check working tree status
+git add <file>        # Stage a file
+git add .             # Stage all changes
+git commit -m "msg"   # Commit with message
+git commit --amend    # Edit last commit
+
+Branching
+git branch            # List branches
+git branch <name>     # Create branch
+git checkout <name>   # Switch branch
+git checkout -b <name>  # Create & switch
+git merge <branch>    # Merge branch into current
+git branch -d <name>  # Delete branch
+
+Remote
+git remote -v                    # List remotes
+git remote add origin <url>      # Add remote
+git push origin <branch>         # Push branch
+git push -u origin <branch>      # Push & set upstream
+git pull                         # Fetch + merge
+git fetch                        # Fetch without merging
+
+Inspecting
+git log               # Commit history
+git log --oneline     # Compact history
+git diff              # Unstaged changes
+git diff --staged     # Staged changes
+git blame <file>      # Who changed what
+
+Undoing
+git restore <file>          # Discard working dir changes
+git restore --staged <file> # Unstage a file
+git revert <commit>         # Undo commit (safe)
+git reset --hard <commit>   # Reset to commit (destructive)
+
+Stashing
+git stash             # Stash current changes
+git stash pop         # Apply & remove latest stash
+git stash list        # List all stashes
+git stash drop        # Delete latest stash
+
+Rebase & Cherry-pick
+git rebase <branch>         # Rebase onto branch
+git rebase -i HEAD~3        # Interactive rebase (last 3)
+git cherry-pick <commit>    # Apply a specific commit
+
+Tags
+git tag                     # List tags
+git tag v1.0                # Create lightweight tag
+git tag -a v1.0 -m "msg"    # Annotated tag
+git push origin --tags      # Push all tags
+
+git log --oneline --graph --all gives a nice visual branch map
+git commit --amend --no-edit re-commits with staged changes but same message
+git push --force-with-lease is safer than --force when force-pushing
