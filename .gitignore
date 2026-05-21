@@ -39,3 +39,7 @@ core.*
 *.bin
 *.img
 *.com
+*.pro
+*.pro.user
+*Debug
+
