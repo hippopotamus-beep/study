@@ -1,5 +1,7 @@
-CXX      ?= g++
-CXXFLAGS ?= -std=c++20 -Wall -Wextra -Wpedantic -O2
+# CXX      ?= g++
+# CXXFLAGS ?= -std=c++20 -Wall -Wextra -Wpedantic -O2
+CXX      = clang++
+CXXFLAGS ?= -std=c++20 -Wall -Wextra -O2 -fms-extensions
 CPPFLAGS += -I. -MMD -MP
 LDFLAGS  ?=
 LDLIBS   ?=
@@ -24,7 +26,8 @@ $(BUILDDIR)/%.o: %.cpp
 run: $(TARGET)
 	./$(TARGET)
 
-debug: CXXFLAGS := -std=c++20 -Wall -Wextra -g -O0
+# debug: CXXFLAGS := -std=c++20 -Wall -Wextra -g -O0
+debug: CXXFLAGS := -std=c++20 -Wall -Wextra -g -O0 -fms-extensions
 debug: clean $(TARGET)
 
 clean:
