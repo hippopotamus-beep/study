@@ -17,5 +17,13 @@ int main() {
                  .earning(123000);
   cout << p1 << endl;
 
+  MailService ms;
+  ms.send_email([&](auto& eb){
+    eb.from("sender@example.com")
+      .to("recipient@example.com")
+      .subject("Test Email")
+      .body("This is a test email.");
+  });
+
   return 0;
 }

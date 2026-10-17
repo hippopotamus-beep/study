@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-
+#include <functional>
 
 using namespace std;
 
@@ -167,5 +167,45 @@ public:
   self& earning(int annual_income);
 };
 
+class Email {
+public:
+  string from, to, subject, body;
+};
+
+class EmailBuilder{
+public:
+  explicit EmailBuilder(Email& email) : email{email} {}
+  EmailBuilder& from(string from){
+    email.from = from;
+    return *this;
+  }
+  EmailBuilder& to(string to){
+    email.to = to;
+    return *this;
+  }
+  EmailBuilder& subject(string subject){
+    email.subject = subject;
+    return *this;
+  }
+  EmailBuilder& body(string body){
+    email.body = body;
+    return *this;
+  }
+private:
+  Email& email;
+};
+
+class MailService{
+public:
+  void send_email(std::function<void(EmailBuilder&)> builder){
+    Email email;
+    EmailBuilder emailBuilder{email};
+    builder(emailBuilder);
+    send_email_impl(email);
+  }
+
+private:
+  void send_email_impl(const Email& email);
+};
 
 #endif

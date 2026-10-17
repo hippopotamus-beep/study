@@ -1,5 +1,7 @@
 #include "build.h"
 
+#include <iostream>
+
 // class HtmlElement
 string HtmlElement::str(int indent) const
 {
@@ -203,4 +205,14 @@ PersonJobBuilder::self& PersonJobBuilder::as_a(string position){
 PersonJobBuilder::self& PersonJobBuilder::earning(int annual_income){
     person.annual_income = annual_income;
     return *this;
+}
+
+// class MailService
+// private functions
+void MailService::send_email_impl(const Email &email)
+{
+    cout << "Sending email from: " << email.from << endl;
+    cout << "Sending email to: " << email.to << endl;
+    cout << "Sending email subject: " << email.subject << endl;
+    cout << "Sending email body: " << email.body << endl;
 }
