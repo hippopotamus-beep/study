@@ -1,0 +1,38 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-I.",
+      "-std=c++20",
+      "-Wall",
+      "-Wextra",
+      "-O2",
+      "-fms-extensions",
+      "-c",
+      "-o",
+      "build/main.o",
+      "main.cpp"
+    ],
+    "directory": "/home/xjqp/Documents/git/study/design-patterns-modern-cpp20",
+    "file": "/home/xjqp/Documents/git/study/design-patterns-modern-cpp20/main.cpp",
+    "output": "/home/xjqp/Documents/git/study/design-patterns-modern-cpp20/build/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-I.",
+      "-std=c++20",
+      "-Wall",
+      "-Wextra",
+      "-O2",
+      "-fms-extensions",
+      "-c",
+      "-o",
+      "build/chapter1/build.o",
+      "chapter1/build.cpp"
+    ],
+    "directory": "/home/xjqp/Documents/git/study/design-patterns-modern-cpp20",
+    "file": "/home/xjqp/Documents/git/study/design-patterns-modern-cpp20/chapter1/build.cpp",
+    "output": "/home/xjqp/Documents/git/study/design-patterns-modern-cpp20/build/chapter1/build.o"
+  }
+]
