@@ -82,130 +82,6 @@ IMG::IMG(const string &url) : Tag("img", "") {
     attributes.emplace_back("src", url);
 }
 
-// class Person
-// friend function
-ostream &operator <<(ostream &os, const Person &person){
-    os << "street_address: " << person._street_address
-       << " post_code: " << person._post_code
-       << " city: " << person._city
-       << " company_name: " << person._company_name
-       << " position: " << person._position
-       << " annual_income: " << person._annual_income;
-    return os;
-}
-
-// public
-PersonBuilder Person::create(){
-    return PersonBuilder();
-}
-
-// private
-string& Person::getStreet_address(){
-    return _street_address;
-}
-
-void Person::setStreet_address(const string &street_address){
-    _street_address = street_address;
-}
-
-string& Person::getPost_code(){
-    return _post_code;
-}
-  
-void Person::setPost_code(const string &post_code){
-    _post_code = post_code;
-}
-
-string& Person::getCity(){
-    return _city;
-}
-
-void Person::setCity(const string &city){
-    _city = city;
-}
-
-string& Person::getCompany_name(){
-    return _company_name;
-}
-
-void Person::setCompany_name(const string& company_name){
-    _company_name = company_name;
-}
-string& Person::getPosition(){
-    return _position;
-}
-
-void Person::setPosition(const string& position){
-    _position = position;
-}
-
-int Person::getAnnual_income(){
-    return _annual_income;
-}
-
-void Person::setAnnual_income(int annual_income){
-    _annual_income = annual_income;
-}
-
-// class PersonBuilderBase
-//public
-PersonBuilderBase::operator Person(){ return std::move(person);}
-
-PersonAddressBuilder PersonBuilderBase::lives() const{
-    return PersonAddressBuilder{_person};
-}
-
-PersonJobBuilder PersonBuilderBase::works() const{
-    return PersonJobBuilder{_person};
-}
-
-// protected
-PersonBuilderBase::PersonBuilderBase(Person& person) : _person{person} {}
-
-Person& PersonBuilderBase::getPerson(){
-    return _person;
-}
-
-void PersonBuilderBase::setPerson(const Person &person){
-    _person = person;
-}
-
-// class PersonAddressBuilder
-// public
-PersonAddressBuilder::PersonAddressBuilder(Person &person) : PersonBuilderBase(person){}
-
-PersonAddressBuilder::self& PersonAddressBuilder::at(string street_address){
-    person.street_address = street_address;
-    return *this;
-}
-
-PersonAddressBuilder::self& PersonAddressBuilder::with_postcode(string post_code){
-    person.post_code = post_code;
-    return *this;
-}
-
-PersonAddressBuilder::self& PersonAddressBuilder::in(string city){
-    person.city = city;
-    return *this;
-}
-
-// class PersonJobBuilder
-PersonJobBuilder::PersonJobBuilder(Person &person) : PersonBuilderBase(person){}
-
-PersonJobBuilder::self& PersonJobBuilder::at(string company_name){
-    person.company_name = company_name;
-    return *this;
-}
-
-PersonJobBuilder::self& PersonJobBuilder::as_a(string position){
-    person.position = position;
-    return *this;
-}
-
-PersonJobBuilder::self& PersonJobBuilder::earning(int annual_income){
-    person.annual_income = annual_income;
-    return *this;
-}
 
 // class MailService
 // private functions
@@ -215,4 +91,12 @@ void MailService::send_email_impl(const Email &email)
     cout << "Sending email to: " << email.to << endl;
     cout << "Sending email subject: " << email.subject << endl;
     cout << "Sending email body: " << email.body << endl;
+}
+
+// class Person
+// friend function
+ostream &operator<<(ostream &os, const Person &obj)
+{
+    return os << "Name: " << obj.name << ", Position: " << obj.position << ", Date of Birth: "
+              << obj.date_of_birth;
 }

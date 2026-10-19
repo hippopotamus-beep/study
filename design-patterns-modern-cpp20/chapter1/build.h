@@ -84,88 +84,6 @@ public:
   explicit IMG(const string &url);
 };
 
-class PersonBuilder;
-class Person{
-  friend class PersonAddressBuilder;
-  friend class PersonJobBuilder;
-  friend class PersonBuilder;
-public:
-  friend ostream &operator<<(ostream &os, const Person &person);
-
-  static PersonBuilder create();
-private:
-  Person(){}
-
-  string& getStreet_address();
-  void setStreet_address(const string &street_address);
-  __declspec(property(get = getStreet_address, put = setStreet_address)) string street_address;
-  string& getPost_code();
-  void setPost_code(const string &post_code);
-  __declspec(property(get = getPost_code, put = setPost_code)) string post_code;
-  string& getCity();
-  void setCity(const string &city);
-  __declspec(property(get = getCity, put = setCity)) string city;
-
-  string& getCompany_name();
-  void setCompany_name(const string& company_name);
-  __declspec(property(get = getCompany_name, put = setCompany_name)) string company_name;
-  string& getPosition();
-  void setPosition(const string& position);
-  __declspec(property(get = getPosition, put = setPosition)) string position;
-  int getAnnual_income();
-  void setAnnual_income(int annual_income);
-  __declspec(property(get = getAnnual_income, put = setAnnual_income)) int annual_income;
-
-  string _street_address, _post_code, _city;
-  string _company_name, _position;
-  int _annual_income = 0;
-};
-
-class PersonAddressBuilder;
-class PersonJobBuilder;
-class PersonBuilderBase{
-public:
-  operator Person();
-
-  PersonAddressBuilder lives() const;
-  PersonJobBuilder works() const;
-
-protected:
-  explicit PersonBuilderBase(Person& person);
-
-  Person& getPerson();
-  void setPerson(const Person &person);
-  __declspec(property(get = getPerson, put = setPersong)) Person person;
-  
-
-private:
-  Person& _person;
-};
-
-class PersonBuilder : public PersonBuilderBase{
-public:
-  PersonBuilder() : PersonBuilderBase{p} {}
-private:
-  Person p;
-};
-
-class PersonAddressBuilder : public PersonBuilderBase{
-  typedef PersonAddressBuilder self;
-public:
-  explicit PersonAddressBuilder(Person &person);
-  self& at(string street_address);
-  self& with_postcode(string post_code);
-  self& in(string city);
-};
-
-class PersonJobBuilder : public PersonBuilderBase{
-  typedef PersonJobBuilder self;
-public:
-  explicit PersonJobBuilder(Person &person);
-  self& at(string company_name);
-  self& as_a(string position);
-  self& earning(int annual_income);
-};
 
 class Email {
 public:
@@ -207,5 +125,49 @@ public:
 private:
   void send_email_impl(const Email& email);
 };
+
+class Person {
+public:
+  string name, position, date_of_birth;
+
+  friend ostream &operator<<(ostream &os, const Person &person);
+};
+
+class PersonBuilder {
+protected:
+  Person person;
+
+public:
+  [[nodiscard]] Person build() const{ return person;}
+};
+
+template <typename TSelf>
+class PersonInfoBuilder : public PersonBuilder{
+public:
+  TSelf& called(const string &name){
+    person.name = name;
+    return static_cast<TSelf&>(*this);
+  }
+};
+
+template<typename TSelf>
+class PersonJobBuilder : public PersonInfoBuilder<PersonJobBuilder<TSelf>>{
+public:
+  TSelf& works_as_a(const string &position){
+    this->person.position = position;
+    return static_cast<TSelf&>(*this);
+  }
+};
+
+template<typename TSelf>
+class PersonBirthDateBuilder : public PersonJobBuilder<PersonBirthDateBuilder<TSelf>>{
+public:
+  TSelf& born_on(const string &date_of_birth){
+    this->person.date_of_birth = date_of_birth;
+    return static_cast<TSelf&>(*this);
+  }
+};
+
+class MyBuilder : public PersonBirthDateBuilder<MyBuilder>{};
 
 #endif
