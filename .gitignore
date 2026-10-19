@@ -42,4 +42,6 @@ core.*
 *.pro
 *.pro.user
 *Debug
-
+main
+.vscode
+.cache
