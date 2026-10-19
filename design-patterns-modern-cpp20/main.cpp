@@ -2,10 +2,8 @@
 
 #include "chapter2/factory.h"
 
-
 int main() {
-  const auto main_wall = SolidWall::create_main({0, 0}, {0, 3000}, 2700, 3000);
-  cout << main_wall << endl;
-
+  auto basic = Wall::factory.create_wall({0, 0}, {0, 3000}, 2700, 3000);
+  cout << *basic << endl;
   return 0;
 }

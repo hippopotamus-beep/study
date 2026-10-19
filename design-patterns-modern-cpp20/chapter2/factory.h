@@ -1,7 +1,8 @@
 #ifndef FACTORY_H
 #define FACTORY_H
 
-#include <vector>
+// #include <vector>
+#include <ostream>
 #include <memory>
 
 using namespace std;
@@ -11,16 +12,34 @@ public:
     int x, y;
 };
 
+enum class WallType{
+    basic,
+    main,
+    partition
+};
+
 class Wall{
 friend ostream &operator << (ostream &os, const Wall &wall);
-friend class SolidWall;
 public:
     Wall(Point2D start, Point2D end, int elevation, int height);
+    virtual ~Wall() = default;
+
+protected:
+    virtual bool intersects(const Wall &other) const;
 
 protected:
     Point2D start, end;
-private:
     int elevation, height;
+
+private:
+    class BasicWallFactory{
+        friend class Wall;
+        BasicWallFactory() = default;
+    public:
+        shared_ptr<Wall> create_wall(Point2D start, Point2D end, int elevation, int height);
+    };
+public:
+    static BasicWallFactory factory;
 };
 
 enum class Material{
@@ -30,6 +49,7 @@ enum class Material{
 };
 
 class SolidWall : public Wall{
+friend ostream &operator << (ostream &os, const SolidWall &solid_wall);
 friend class WallFactory;
 private:
     int witdh;
@@ -38,20 +58,14 @@ protected:
     SolidWall(const Point2D start, const Point2D end, const int evelation, const int height,
               const int width, const Material material);
 
-public:
-    static shared_ptr<SolidWall> create_main(Point2D start, Point2D end, int elevation, int height);
-    static unique_ptr<SolidWall> create_partition(Point2D start, Point2D end, int elevation, 
-        int height);
-
     bool intersects(const Wall &other) const;
 };
 
 class WallFactory{
-private:
-    static vector<weak_ptr<Wall>> walls;
+// private:
+//     static vector<weak_ptr<Wall>> walls;
 public:
-    static shared_ptr<SolidWall> create_main(Point2D start, Point2D end, int elevation, int height);
-    static shared_ptr<SolidWall> create_partition(Point2D start, Point2D end, int elevation, int height);
+    static shared_ptr<Wall> create_wall(WallType type, Point2D start, Point2D end, int elevation, int height);
 };
 
 #endif
